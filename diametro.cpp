@@ -3,9 +3,11 @@
 #include <queue>
 using namespace std;
 
+const int INFINITO = 10001;
+
 struct nodo{
     vector<int> vicini;
-    int distanza = 10001;
+    int distanza = INFINITO;
 };
 int max(int a, int b){
     if(a > b){
@@ -13,27 +15,29 @@ int max(int a, int b){
     }
     return b;
 }
-void camminoMinimo(vector<nodo>& grafo, nodo& node){
-    queue<nodo> coda;
-    node.distanza = 0;
-    coda.push(node);
+void camminoMinimo(vector<nodo>& grafo, int index){
+    queue<int> coda; //meglio usare una queue di int, altrimenti passa per copia di ogni node che si aggiunge
+    grafo[index].distanza = 0;
+    coda.push(index);
     while(!coda.empty()){
-        nodo n = coda.front();
+        int n = coda.front();
         coda.pop();
-        for(int i : n.vicini){
-            if(grafo[i].distanza > n.distanza+1){
-                grafo[i].distanza = n.distanza+1;
-                coda.push(grafo[i]);
+        for(int i : grafo[n].vicini){
+            if(grafo[i].distanza > grafo[n].distanza+1){
+                grafo[i].distanza = grafo[n].distanza+1;
+                coda.push(i);
             }
         }
     }
 }
-int maxCamminoMinimo(vector<nodo> grafo, int index){
-    camminoMinimo(grafo, grafo[index]);
+int maxCamminoMinimo(vector<nodo>& grafo, int index){
+    camminoMinimo(grafo, index);
     int res = 0;
-    for(nodo n : grafo){
-        if(n.distanza < 10001)
-        res = max(res, n.distanza);
+    for(nodo& n : grafo){ //fare per references altrimenti fa per copia
+        if(n.distanza < INFINITO){ //per evitare di calcolare componenti isolate
+            res = max(res, n.distanza);
+            n.distanza = INFINITO;
+        }
     }
     return res;
 }
