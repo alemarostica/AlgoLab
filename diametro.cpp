@@ -1,3 +1,9 @@
+/* 
+Idea di funzionamento: uso l'algoritmo di calcolo dei cammini minimi da un nodo agli altri (Erdos) e lo applico a tutti
+i nodi (tranne l'ultimo che tanto è già stato considerato calcolando i cammini minimi da tutti gli altri). Applico quindi cammino minimo
+ad un nodo, scorro nel grafo e prendo il nodo con valore di distanza più grande (non considerando infinito) che mi rappresenta il nodo più
+distante da quello. Prendo il massimo tra tutti quelli trovati nel punto precedente e ho la massima distanza assoluta tra due nodi (diametro)
+*/
 #include <fstream>
 #include <vector>
 #include <queue>

@@ -1,3 +1,7 @@
+/*
+Applico cammino minimo (erdos) dal nodo di partenza segnandomi però durante il calcolo
+se posso raggiungere un nodo con più combinazioni nella variabile cammini
+*/
 #include <fstream>
 #include <vector>
 #include <queue>
@@ -17,7 +21,7 @@ int max(int a, int b){
     return b;
 }
 void camminoMinimo(vector<nodo>& grafo, int start){
-    queue<int> coda; //meglio usare una queue di int, altrimenti passa per copia di ogni node che si aggiunge
+    queue<int> coda;
     grafo[start].distanza = 0;
     grafo[start].cammini = 1;
     coda.push(start);
