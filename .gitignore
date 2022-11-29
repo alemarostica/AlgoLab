@@ -34,3 +34,4 @@
 #other
 *.unx
 *.txt
+*.DS_Store
