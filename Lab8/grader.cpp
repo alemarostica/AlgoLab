@@ -73,7 +73,8 @@ void helpers::signal_handler(int signum) {
                      << helpers::get_elapsed_time() << " microseconds" << endl;
     }
 
-    quick_exit(EXIT_SUCCESS);
+    exit(EXIT_SUCCESS);
+    //quick_exit(EXIT_SUCCESS);
 }
 
 

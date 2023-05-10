@@ -1,47 +1,38 @@
-// #include "tsp.h"
+#include "tsp.h"
 
-#include <iostream>
 #include <fstream>
 #include <string>
 
 using namespace std;
 
-string tsp(int **grafo, int N)
+int tsp(int **grafo, int* percorso, int N, int start)
 {
-    bool visited[N] = {false};
-    visited[0] = true;
-    bool changed;
-    string result = "0";
-    int node = 0;
-    do
+    bool visited[N]; //= {false};
+    for(int i=0; i<N; i++){
+        visited[i] = false;
+    }
+    visited[start] = true;
+    percorso[0] = start;
+    int node = start, costo = 0;
+    for(int i = 1; i < N; i++)
     {
-        int minimo = 1001, index;
-        changed = false;
-
-        //cout << "index before: " << index << endl;
-
-        for (int i = 0; i < N; i++)
+        int index = 0, mini = 10001;
+        for (int j = 0; j < N; j++) //trovo vicino non visitato con peso minore
         {
-            if (!visited[i] && grafo[i][node] < minimo)
+            if (!visited[j] && grafo[j][node] < mini)
             {
-                index = i;
-                minimo = grafo[i][node];
-                changed = true;
+                index = j;
+                mini = grafo[j][node];
             }
         }
-
-        // cout << "index: " << index << endl;
-        // cout << "minimo: " << minimo << endl;
-
+        costo += mini;
         node = index;
         visited[index] = true;
-        if (changed)
-        {
-            result.append(" ");
-            result.append(to_string(index));
-        }
-    } while (changed);
-    return (result.append(" 0#"));
+        percorso[i] = index;
+    }
+    percorso[N] = start;
+    costo += grafo[percorso[N-1]][start];
+    return costo;
 }
 
 int main(void)
@@ -82,10 +73,19 @@ int main(void)
     //     }
     //     cout << endl;
     // }
-
-    string res = tsp(grafo, N);
-
-    output << res;
+    int percorso[N+1];
+    int min = 10001;
+    for(int i=0; i<N; i++){
+        int tmp = tsp(grafo, percorso, N, i);
+        if(tmp < min){
+            min = tmp;
+            output << percorso[0];
+            for(int i=1; i<=N; i++){
+                output << " " << percorso[i];
+            }
+            output << "#" << endl;
+        }
+    }
 
     output.close();
 
